@@ -9,6 +9,7 @@ import connectDB from "./utils/db.js"; // MongoDB connection utility
 
 // Importing Routes
 import userRoute from "./routes/user.route.js";
+import companyRoute from "./routes/company.route.js";
 
 // ---------------------------
 // ENVIRONMENT CONFIG
@@ -68,7 +69,14 @@ const PORT = process.env.PORT || 3000;
    4. Calls controller (user.controller.js) → where business logic runs
    5. If needed → uses middlewares (e.g., isAuthenticated.js)
 */
+// User Routes.js
 app.use("/api/v1/user", userRoute);
+
+
+// company route.js
+app.use("/api/v1/company", companyRoute);
+
+
 
 // ---------------------------
 // START SERVER (After DB Connection)

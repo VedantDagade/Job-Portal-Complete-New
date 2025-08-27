@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken"; // For generating JWT tokens (authentication)
 export const register = async (req, res) => {
   try {
     // Get user data from request body
-    const { fullname, email, phoneNumber, password, role } = req.body;
+    const { fullname, email, phoneNumber, password, role } = req.body; //req.body is the JSON you typed in Postman.
 
     // Validation: check if any required field is missing
     if (!fullname || !email || !phoneNumber || !password || !role) {
@@ -148,19 +148,13 @@ export const updateProfile = async (req, res) => {
     const { fullname, email, phoneNumber, bio, skills } = req.body;
     const file = req.file; // profile/resume file uploaded (if any)
 
-    // Basic validation
-    if (!fullname) {
-      return res.status(400).json({
-        message: "Something is missing",
-        success: true,
-      });
-    }
-
     // cloudinary upload logic will come here for profile/resume
 
-    // Convert skills string → array
-    const skillsArray = skills.split(",");
-
+    let skillsArray;
+    if (skills) {
+      // Convert skills string → array
+      skillsArray = skills.split(",");
+    }
     // userId comes from authentication middleware
     const userId = req.id;
     let user = await User.findById(userId);
@@ -173,11 +167,11 @@ export const updateProfile = async (req, res) => {
     }
 
     // Update user fields
-    user.fullname = fullname;
-    user.email = email;
-    user.phoneNumber = phoneNumber;
-    user.profile.bio = bio;
-    user.profile.skills = skillsArray;
+    if (fullname) user.fullname = fullname;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (bio) user.profile.bio = bio;
+    if (skills) user.profile.skills = skillsArray;
 
     // Resume handling logic will come here
 

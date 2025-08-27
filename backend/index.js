@@ -1,6 +1,6 @@
-// ---------------------------
+
 // IMPORTS (Packages & Files)
-// ---------------------------
+
 import express from "express"; // Framework to build server & REST APIs
 import cookieParser from "cookie-parser"; // Parse cookies (used for JWT/auth sessions)
 import cors from "cors"; // Handle cross-origin requests (Frontend <-> Backend)
@@ -57,8 +57,9 @@ app.use(cors(corsOptions));
 const PORT = process.env.PORT || 3000;
 
 // ---------------------------
-// ROUTES (API Endpoints)
+//* ROUTES (API Endpoints)
 // ---------------------------
+//* VIMP -:
 /*
    Flow of Request:
    1. User calls → http://localhost:8000/api/v1/user/register

@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     // Enum-like validation → user must be either "student" or "recruiter"
-    type: [String],
+    type: String,
     enum: ["student", "recruiter"],
     required: true,
   },

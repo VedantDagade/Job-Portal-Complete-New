@@ -1,55 +1,47 @@
-import mongoose from "mongoose";
+// Import mongoose and Schema constructor
+import mongoose, { Schema } from "mongoose";
 
-// Job Schema (for storing job postings)
-const jobSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true, // job title
-    },
-    description: {
-      type: String,
-      required: true, // job details/summary
-    },
-    requirements: [
-      {
-        type: String, // skills/requirements list
-      },
-    ],
-    salary: {
-      type: Number,
-      required: true, // offered salary
-    },
-    location: {
-      type: String,
-      required: true, // job location
-    },
-    jobType: {
-      type: String,
-      required: true, // full-time/part-time etc.
-    },
-    position: {
-      type: Number,
-      required: true, // number of openings
-    },
-    company: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Company", // link job → company
-      required: true,
-    },
-    created_by: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // recruiter (User who posted the job)
-      required: true,
-    },
-    application: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Application", // list of applications for this job
-      },
-    ],
+// Define a new User schema
+const userSchema = new mongoose.Schema({
+  fullname: {
+    type: String,         // Data type is String
+    required: true,       // Field must be provided (validation rule)
   },
-  { timestamps: true }
-); // auto add createdAt & updatedAt
+  email: {
+    type: String,
+    required: true,
+    unique: true,         // Ensures no two users can have the same email
+  },
+  phoneNumber: {
+    type: Number,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    // Enum-like validation → user must be either "student" or "recruiter"
+    type: [String],
+    enum: ["student", "recruiter"],
+    required: true,
+  },
+  profile: {
+    bio: { type: String },               // Short about user
+    skills: [{ type: String }],          // Array of strings (multiple skills)
+    resume: { type: String },            // Stores URL of uploaded resume
+    resumeOriginalName: { type: String}, // Keeps original filename of resume
+    company: {
+      // Reference to another collection (Relationship with Company model)
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company"
+    },
+    profilePhoto: {
+      type: String,
+      default: ""                        // Default value if not provided
+    }
+  },
+}, { timestamps: true }); // Adds createdAt & updatedAt fields automatically
 
-export const Job = mongoose.model("Job", jobSchema); // Model for 'jobs' collection → used for CRUD with jobSchema
+// Create and export User model from schema
+export const User = mongoose.model("User", userSchema);

@@ -18,6 +18,10 @@ const jobSchema = new mongoose.Schema({
     type: Number,
     required: true, // offered salary
   },
+  experienceLevel: {
+    type: Number,
+    required: true,
+  },
   location: {
     type: String,
     required: true, // job location
@@ -47,7 +51,4 @@ const jobSchema = new mongoose.Schema({
   ],
 });
 
-
-
 export const Job = mongoose.model("Job", jobSchema);
-

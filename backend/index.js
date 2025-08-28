@@ -10,6 +10,8 @@ import connectDB from "./utils/db.js"; // MongoDB connection utility
 // Importing Routes
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
+import jobRoute from "./routes/job.route.js";
+
 
 // ---------------------------
 // ENVIRONMENT CONFIG
@@ -17,7 +19,7 @@ import companyRoute from "./routes/company.route.js";
 dotenv.config({}); // Load .env file (e.g., PORT, DB_URI, JWT_SECRET, etc.)
 
 // ---------------------------
-// EXPRESS APP INITIALIZATION
+//* EXPRESS APP INITIALIZATION
 // ---------------------------
 const app = express();
 
@@ -75,6 +77,10 @@ app.use("/api/v1/user", userRoute);
 
 // company route.js
 app.use("/api/v1/company", companyRoute);
+
+
+// Job route.js
+app.use("/api/v1/job", jobRoute);
 
 
 

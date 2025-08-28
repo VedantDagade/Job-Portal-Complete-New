@@ -1,7 +1,7 @@
 
 // IMPORTS (Packages & Files)
 
-import express from "express"; // Framework to build server & REST APIs
+import express, { application } from "express"; // Framework to build server & REST APIs
 import cookieParser from "cookie-parser"; // Parse cookies (used for JWT/auth sessions)
 import cors from "cors"; // Handle cross-origin requests (Frontend <-> Backend)
 import dotenv from "dotenv"; // Load environment variables from .env
@@ -11,6 +11,7 @@ import connectDB from "./utils/db.js"; // MongoDB connection utility
 import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
+import applicationRoute from "./routes/application.route.js";
 
 
 // ---------------------------
@@ -82,6 +83,8 @@ app.use("/api/v1/company", companyRoute);
 // Job route.js
 app.use("/api/v1/job", jobRoute);
 
+//Application route.js
+app.use("/api/v1/application", applicationRoute);
 
 
 // ---------------------------

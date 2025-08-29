@@ -6,6 +6,7 @@ import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
 import { RouterProvider } from "react-router";
 import Home from "./components/Home";
+import { Toaster } from "./components/ui/sonner";
 
 const appRouter = createBrowserRouter([
   {
@@ -26,7 +27,9 @@ const appRouter = createBrowserRouter([
 function App() {
   return (
     <div>
-      <RouterProvider router={appRouter}/>
+      <RouterProvider router={appRouter} />
+      {/* Toaster for global notifications */}
+      <Toaster position="top-right" richColors closeButton />
     </div>
   );
 }

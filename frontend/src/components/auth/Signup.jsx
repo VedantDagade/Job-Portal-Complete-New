@@ -135,7 +135,7 @@ const Signup = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label className="font-semibold">Student</Label>
+                <Label htmlFor="r1" className="font-semibold">Student</Label>
               </div>
               <div className="flex items-center gap-2">
                 <Input
@@ -146,7 +146,7 @@ const Signup = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label className="font-semibold">Recruiter</Label>
+                <Label htmlFor="r2" className="font-semibold">Recruiter</Label>
               </div>
             </RadioGroup>
 

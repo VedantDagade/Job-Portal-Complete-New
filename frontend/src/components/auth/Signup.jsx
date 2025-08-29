@@ -4,9 +4,10 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import { USER_API_END_POINT } from "@/utils/constant";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Signup = () => {
@@ -19,7 +20,7 @@ const Signup = () => {
     file: "",
   });
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -37,28 +38,26 @@ const Signup = () => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("password", input.password);
     formData.append("role", input.role);
-    
-    if(input.file){
+
+    if (input.file) {
       formData.append("file", input.file);
     }
-
-
     try {
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        withCredentials: true
+        withCredentials: true,
       });
-      if(res.data.success){
+      if (res.data.success) {
         navigate("/login");
         toast.success(res.data.message);
       }
-    } catch(error){
+    } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -135,7 +134,9 @@ const Signup = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="r1" className="font-semibold">Student</Label>
+                <Label htmlFor="r1" className="font-semibold">
+                  Student
+                </Label>
               </div>
               <div className="flex items-center gap-2">
                 <Input
@@ -146,7 +147,9 @@ const Signup = () => {
                   onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
-                <Label htmlFor="r2" className="font-semibold">Recruiter</Label>
+                <Label htmlFor="r2" className="font-semibold">
+                  Recruiter
+                </Label>
               </div>
             </RadioGroup>
 
@@ -157,7 +160,6 @@ const Signup = () => {
                 accept="image/*"
                 type="file"
                 onChange={changeFileHandler}
-
                 className="cursor-pointer w-full text-sm file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
               />
             </div>

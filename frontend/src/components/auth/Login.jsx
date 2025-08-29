@@ -4,7 +4,7 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Button } from "../ui/button";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { toast } from "sonner";
@@ -26,25 +26,29 @@ const Login = () => {
   //   setInput({ ...input, file: e.target.files?.[0] });
   // };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
-      if (res.data.success) {
-        navigate("/");
-        toast.success(res.data.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
-    }
-  };
+   const submitHandler = async (e) => {
+     e.preventDefault();
+     
+     try {
+       const res = await axios.post(
+         `${USER_API_END_POINT}login`,
+         input,
+         {
+           headers: {
+             "Content-Type": "application/json",
+           },
+           withCredentials: true,
+         }
+       );
+       if (res.data.success) {
+         navigate("/login");
+         toast.success(res.data.message);
+       }
+     } catch (error) {
+       console.log(error);
+       toast.error(error.response.data.message);
+     }
+   };
 
   return (
     <div>

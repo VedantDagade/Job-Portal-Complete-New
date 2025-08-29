@@ -10,7 +10,8 @@ import isAuthenticated from "../middlewares/isAuthenticated.js";
 
 const router = express.Router();
 
-// ✅ Correct usage
+//User Router
+// Correct usage
 router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", logout); // logout usually a GET route

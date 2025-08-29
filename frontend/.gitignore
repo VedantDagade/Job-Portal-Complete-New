@@ -27,3 +27,5 @@ dist-ssr
 
 # Readme file
 FRONTEND.md 
+/src/components/auth/Login_Working.md
+

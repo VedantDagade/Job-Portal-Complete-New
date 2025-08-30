@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./shared/Navbar";
-import { FaLinkedin, FaTwitter, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { FaLinkedin, FaTwitter, FaInstagram, FaEnvelope, FaGithub } from "react-icons/fa";
 import VedantImage from "../assets/Vedant_Image.jpeg"
 import Footer from "./Footer";
 
@@ -60,6 +60,50 @@ const About = () => {
           <p className="text-gray-600">Founder & Developer</p>
         </div>
       </section>
+
+      {/* Social & Professional Links */}
+            <section className="flex justify-center gap-6 mb-5 text-3xl">
+              <a
+                href="https://www.linkedin.com/in/vedantdagade21"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-[#0A66C2] transition-colors"
+              >
+                <FaLinkedin />
+              </a>
+              <a
+                href="https://github.com/vedantdagade"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                <FaGithub />
+              </a>
+              <a
+                href="https://twitter.com/vedant_dagade21"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-[#1DA1F2] transition-colors"
+              >
+                <FaTwitter />
+              </a>
+              <a
+                href="https://instagram.com/vedant_dagade21"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-[#E1306C] transition-colors"
+              >
+                <FaInstagram />
+              </a>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=vedantdagade21@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-[#F83002] transition-colors"
+              >
+                <FaEnvelope />
+              </a>
+            </section>
 
       {/* Call to Action Section */}
       <section className="bg-[#F83002] text-white py-12 flex-shrink-0">

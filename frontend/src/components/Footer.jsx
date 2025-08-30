@@ -1,5 +1,12 @@
 import React from "react";
-import { FaLinkedin, FaTwitter, FaInstagram, FaEnvelope } from "react-icons/fa";
+import {
+  FaLinkedin,
+  FaTwitter,
+  FaInstagram,
+  FaEnvelope,
+  FaGithub,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -24,24 +31,24 @@ const Footer = () => {
             </h2>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#home" className="hover:text-[#F83002]">
+                <a href="/#home" className="hover:text-[#F83002]">
                   Home
                 </a>
               </li>
               <li>
-                <a href="#jobs" className="hover:text-[#F83002]">
+                <a href="/#jobs" className="hover:text-[#F83002]">
                   Jobs
                 </a>
               </li>
               <li>
-                <a href="/about" className="hover:text-[#F83002]">
+                <Link to="/about" className="hover:text-[#F83002]">
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-[#F83002]">
-                  Contact
-                </a>
+                <Link to="/contact" className="hover:text-[#F83002]">
+                  Contact Us
+                </Link>
               </li>
             </ul>
           </div>
@@ -59,6 +66,14 @@ const Footer = () => {
                 className="hover:text-[#0A66C2] transition-colors"
               >
                 <FaLinkedin />
+              </a>
+              <a
+                href="https://github.com/vedantdagade"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-gray-100 transition-colors"
+              >
+                <FaGithub />
               </a>
               <a
                 href="https://twitter.com/vedant_dagade21"
@@ -87,8 +102,9 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Job Portal. All rights reserved.
+        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-md text-gray-500">
+          © {new Date().getFullYear()} Vedant Yashavant Dagade. All rights
+          reserved.
         </div>
       </div>
     </footer>

@@ -7,6 +7,8 @@ import Login from "./components/auth/Login";
 import { RouterProvider } from "react-router";
 import Home from "./components/Home";
 import { Toaster } from "./components/ui/sonner";
+import About from "./components/About";
+import Contact from "./components/Contact";
 
 const appRouter = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const appRouter = createBrowserRouter([
     path: "/signup",
     element: <Signup/>,
   },
+  {
+    path: "/about",
+    element: <About/>
+  },
+  {
+    path: "/contact",
+    element: <Contact/>
+  }
 ]);
 
 

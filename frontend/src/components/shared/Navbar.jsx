@@ -15,9 +15,13 @@ const Navbar = () => {
     <div className="bg-white">
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16 px-4">
         {/* Logo */}
-        <h1 className="text-2xl font-bold">
-          Job <span className="text-[#F83002]">Portal</span>
-        </h1>
+        <nav>
+          <h1 className="text-2xl font-bold">
+            <Link to="/" className="hover:opacity-80 transition">
+              Job <span className="text-[#F83002]">Portal</span>
+            </Link>
+          </h1>
+        </nav>
 
         {/* Navigation + Avatar */}
         <div className="flex items-center gap-12">

@@ -166,7 +166,7 @@ const Signup = () => {
           </div>
 
           {/* Signup button */}
-          <Button type="submit" className="w-full my-4">
+          <Button type="submit" className="w-full my-4 cursor-pointer">
             Signup
           </Button>
 

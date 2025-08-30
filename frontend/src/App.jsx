@@ -9,6 +9,8 @@ import Home from "./components/Home";
 import { Toaster } from "./components/ui/sonner";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import Jobs from "./components/Jobs";
+import Browse from "./components/Browse";
 
 const appRouter = createBrowserRouter([
   {
@@ -17,22 +19,29 @@ const appRouter = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <Login />,
   },
   {
     path: "/signup",
-    element: <Signup/>,
+    element: <Signup />,
+  },
+  {
+    path: "/jobs",
+    element: <Jobs />,
   },
   {
     path: "/about",
-    element: <About/>
+    element: <About />,
   },
   {
     path: "/contact",
-    element: <Contact/>
-  }
+    element: <Contact />,
+  },
+  {
+    path: "/browse",
+    element: <Browse />,
+  },
 ]);
-
 
 function App() {
   return (

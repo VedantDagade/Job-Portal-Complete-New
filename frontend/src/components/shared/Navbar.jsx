@@ -42,7 +42,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                to="/#jobs"
+                to="/jobs"
                 className="hover:text-[#F83002] transition-colors"
               >
                 Jobs

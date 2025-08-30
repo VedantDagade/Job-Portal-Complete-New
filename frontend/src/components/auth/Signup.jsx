@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../shared/Navbar";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Button } from "../ui/button";
@@ -9,6 +9,9 @@ import { USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "@/redux/authSlice";
+import { Loader2 } from "lucide-react";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -20,7 +23,10 @@ const Signup = () => {
     file: "",
   });
 
-  const navigate = useNavigate(); 
+  const { loading } = useSelector((store) => store.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -43,6 +49,7 @@ const Signup = () => {
       formData.append("file", input.file);
     }
     try {
+      dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -56,6 +63,8 @@ const Signup = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -166,8 +175,18 @@ const Signup = () => {
           </div>
 
           {/* Signup button */}
-          <Button type="submit" className="w-full my-4 cursor-pointer">
-            Signup
+          <Button
+            type="submit"
+            className="w-full my-4 cursor-pointer"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
+              </>
+            ) : (
+              "Signup"
+            )}
           </Button>
 
           {/* Already have account */}

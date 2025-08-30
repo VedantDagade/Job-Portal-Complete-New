@@ -33,3 +33,5 @@ Thumbs.db
 # Readme file
 controllers/CONTROLLERS.md
 BACKEND.md
+
+*.md

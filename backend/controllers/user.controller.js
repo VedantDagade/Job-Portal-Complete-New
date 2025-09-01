@@ -113,10 +113,10 @@ export const login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        maxAge: 1 * 24 * 60 * 60 * 1000, // Expiry = 1 day
+        maxAge: 7 * 24 * 60 * 60 * 1000, // Expiry = 1 day
         httpOnly: true, // JS on frontend cannot access cookie → prevents XSS
         sameSite: "strict", // Prevents CSRF attacks
-        // secure: true (enable in production for HTTPS only)
+        secure: process.env.NODE_ENV === "production", //(enable in production for HTTPS only)
       })
       .json({
         message: `Welcome back ${user.fullname}`,

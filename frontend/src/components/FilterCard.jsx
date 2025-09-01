@@ -35,17 +35,19 @@ const FilterCard = () => {
       <h1 className="font-bold text-lg">Filter Jobs</h1>
       <hr className="mt-3" />
       <RadioGroup>
-        {filterData.map((data, index) => (
-          <div key={index}>
+        {filterData.map((data) => (
+          <div key={data.filterType}>
+            {" "}
+            {/* unique key for each filterType */}
             <h1 className="font-bold text-lg">{data.filterType}</h1>
-            {data.array.map((item, index) => {
-              return (
-                <div className="flex items-center space-x-2 my-2">
-                  <RadioGroupItem value={item} key={index}/>
-                  <Label>{item}</Label>
-                </div>
-              );
-            })}
+            {data.array.map((item) => (
+              <div className="flex items-center space-x-2 my-2" key={item}>
+                {" "}
+                {/* unique key for each item */}
+                <RadioGroupItem value={item} />
+                <Label>{item}</Label>
+              </div>
+            ))}
           </div>
         ))}
       </RadioGroup>

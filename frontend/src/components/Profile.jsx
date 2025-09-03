@@ -84,9 +84,9 @@ const Profile = () => {
             <a
               target="blank"
               className="text-blue-500 w-full hover:underline cursor-pointer"
-              href="https://youtube.com"
+              href={user.profile.resume}
             >
-              Resume Link
+              {user?.profile?.resumeOriginalName}
             </a>
           ) : (
             <span>N/A</span>

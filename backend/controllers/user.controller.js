@@ -17,7 +17,6 @@ export const register = async (req, res) => {
         .status(400)
         .json({ message: "Something is missing", success: false });
     }
-
     // Check existing user
     let user = await User.findOne({ email });
     if (user) {
@@ -29,6 +28,13 @@ export const register = async (req, res) => {
         });
     }
 
+    if (req.files?.profilePhoto) {
+      const profileFile = req.files.profilePhoto[0];
+      // upload to cloudinary
+    }
+
+    
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -39,6 +45,7 @@ export const register = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
+      profilePhoto: req.files?.profilePhoto ? "uploaded-url-here" : "",
     });
 
     return res
@@ -112,8 +119,9 @@ export const login = async (req, res) => {
       .cookie("token", token, {
         maxAge: 24 * 60 * 60 * 1000, // 1 day
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",   //strict || lax
+        //secure: process.env.NODE_ENV === "production",
+        secure: true,
       })
       .json({
         message: `Welcome back ${user.fullname}`,

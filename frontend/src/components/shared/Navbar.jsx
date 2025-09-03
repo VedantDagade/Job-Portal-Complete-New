@@ -7,11 +7,33 @@ import React from "react";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, User2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { setUser } from "@/redux/authSlice";
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`,{withCredentials:true});
+      if(res.data.success){
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <div className="bg-white shadow-sm">
@@ -122,7 +144,10 @@ const Navbar = () => {
                   </button>
 
                   {/* Logout */}
-                  <button className="flex items-center gap-2 w-full p-2 rounded-lg hover:bg-gray-100 transition">
+                  <button
+                    className="flex items-center gap-2 w-full p-2 rounded-lg hover:bg-gray-100 transition"
+                    onClick={logoutHandler}
+                  >
                     <LogOut className="w-5 h-5 text-red-600" />
                     <span className="text-sm font-medium text-red-600">
                       Logout

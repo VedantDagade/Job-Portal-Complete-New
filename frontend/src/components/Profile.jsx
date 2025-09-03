@@ -28,7 +28,7 @@ const Profile = () => {
               <AvatarImage
                 className="mt-auto"
                 src={user?.profile?.profilePhoto}
-                alt="Company Logo"
+                alt="Profile Photo"
               />
             </Avatar>
             <div>

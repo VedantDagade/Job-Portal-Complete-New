@@ -3,15 +3,22 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import axios from "axios";
+import { USER_API_END_POINT } from "@/utils/constant";
+import { setUser } from "@/redux/authSlice";
+import { toast } from "sonner";
 
 const UpdateProfileDialog = ({ open, setOpen }) => {
   const { user } = useSelector((store) => store.auth);
+
+  const [loading, setLoading] = useState(false);
 
   const [input, setInput] = useState({
     fullname: user?.fullname || "",
@@ -22,7 +29,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     file: user?.profile?.resume || null,
   });
 
-  const handleChange = (e) => {
+  const dispatch = useDispatch();
+
+  const changeEventHandler = (e) => {
     const { id, value, files } = e.target;
     setInput((prev) => ({
       ...prev,
@@ -30,10 +39,48 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const fileChangeHandler = (e) => {
+    const file = e.target.files?.[0];
+    setInput({ ...input, file });
+  };
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("Updated Profile Data:", input); // 🔗 send to backend with axios/fetch
-    setOpen(false);
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("fullname", input.fullname);
+    formData.append("email", input.email);
+    formData.append("phoneNumber", input.phoneNumber);
+    formData.append("bio", input.bio);
+    formData.append("skills", input.skills);
+    if (input.file) {
+      formData.append("file", input.file);
+    }
+
+    try {
+      const res = await axios.put(
+        `${USER_API_END_POINT}/profile/update`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        dispatch(setUser(res.data.user));
+        toast.success(res.data.message);
+        setOpen(false); // close only after success
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,16 +90,19 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
           <DialogTitle className="text-xl font-semibold text-center">
             Update Profile
           </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500 text-center">
+            Update your personal information and upload a resume.
+          </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={submitHandler} className="space-y-4">
           {/* Name */}
           <div className="grid gap-1">
             <Label htmlFor="fullname">Name</Label>
             <Input
               id="fullname"
               value={input.fullname}
-              onChange={handleChange}
+              onChange={changeEventHandler}
               placeholder="Enter your full name"
             />
           </div>
@@ -64,7 +114,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
               id="email"
               type="email"
               value={input.email}
-              onChange={handleChange}
+              onChange={changeEventHandler}
               placeholder="example@email.com"
             />
           </div>
@@ -76,7 +126,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
               id="phoneNumber"
               type="tel"
               value={input.phoneNumber}
-              onChange={handleChange}
+              onChange={changeEventHandler}
               placeholder="Enter your number"
             />
           </div>
@@ -87,7 +137,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             <Input
               id="bio"
               value={input.bio}
-              onChange={handleChange}
+              onChange={changeEventHandler}
               placeholder="Write a short bio..."
             />
           </div>
@@ -98,7 +148,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             <Input
               id="skills"
               value={input.skills}
-              onChange={handleChange}
+              onChange={changeEventHandler}
               placeholder="e.g. React, Node.js, MongoDB"
             />
           </div>
@@ -106,12 +156,12 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
           {/* Resume */}
           <div className="grid gap-1">
             <Label htmlFor="file">Resume</Label>
-            <Input id="file" type="file" onChange={handleChange} />
+            <Input id="file" type="file" onChange={fileChangeHandler} />
           </div>
 
           {/* Update Button */}
-          <Button type="submit" className="w-full">
-            Update
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Updating..." : "Update"}
           </Button>
         </form>
       </DialogContent>

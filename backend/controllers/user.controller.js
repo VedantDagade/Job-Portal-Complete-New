@@ -185,8 +185,10 @@ export const updateProfile = async (req, res) => {
     // ✅ Upload resume to Cloudinary (stream)
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        resource_type: "auto", // auto-detect pdf/doc/docx
+        resource_type: "raw", // auto-detect pdf/doc/docx
         folder: "resumes",
+        use_filename: true, // keep original filename
+        unique_filename: false, // avoid random hash names
         public_id: file.originalname.split(".")[0],
       },
       async (error, result) => {

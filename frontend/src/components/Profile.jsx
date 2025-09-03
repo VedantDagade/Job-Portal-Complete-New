@@ -13,7 +13,8 @@ import UpdateProfileDialog from "./UpdateProfileDialog";
 const Profile = () => {
   const { user } = useSelector((store) => store.auth);
 
-  const isResume = true;
+  //const isResume = true;
+  const isResume = Boolean(user?.profile?.resume);
 
   const [open, setOpen] = useState(false);
 
@@ -84,7 +85,9 @@ const Profile = () => {
             <a
               target="blank"
               className="text-blue-500 w-full hover:underline cursor-pointer"
-              href={user.profile.resume}
+              href={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                user.profile.resume
+              )}&embedded=true`}
             >
               {user?.profile?.resumeOriginalName}
             </a>

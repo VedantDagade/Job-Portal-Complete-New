@@ -26,8 +26,8 @@ const Profile = () => {
           <div className="flex items-center gap-4">
             <Avatar className="w-24 h-24 rounded-full">
               <AvatarImage
-                className="mt-2"
-                src="https://imgs.search.brave.com/Y_hU5wT4IYRa1yUzMC0a8yvx4jxxLEb8rXWL_DYiqZ8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzg4LzkxLzkx/LzM2MF9GXzEyODg5/MTkxMDZfS3hMRG1U/ZmU3ZkZLRVBKMVQ3/WDFjRnVzRngzUUJF/ZTIuanBn"
+                className="mt-auto"
+                src={user?.profile?.profilePhoto}
                 alt="Company Logo"
               />
             </Avatar>

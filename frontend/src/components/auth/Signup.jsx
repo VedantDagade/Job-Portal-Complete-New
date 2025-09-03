@@ -46,8 +46,9 @@ const Signup = () => {
     formData.append("role", input.role);
 
     if (input.file) {
-      formData.append("file", input.file);
+      formData.append("profilePhoto", input.file); //  must match backend multer field
     }
+
     try {
       dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {

@@ -9,3 +9,4 @@ export const multiUpload = multer({ storage }).fields([
   { name: "profilePhoto", maxCount: 1 },
   { name: "resume", maxCount: 1 },
 ]);
+

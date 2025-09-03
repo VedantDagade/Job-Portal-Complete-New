@@ -8,6 +8,8 @@ import {
 
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import { singleUpload , multiUpload} from "../middlewares/multer.js";
+import { getCurrentUser} from "../controllers/user.controller.js"
+
 
 const router = express.Router();
 

@@ -107,7 +107,7 @@ const Navbar = () => {
                 <Avatar className="cursor-pointer">
                   <AvatarImage
                     className="h-12 w-12 rounded-full"
-                    src="https://github.com/shadcn.png"
+                    src={user?.profile?.profilePhoto}
                     alt="@shadcn"
                   />
                 </Avatar>
@@ -119,7 +119,7 @@ const Navbar = () => {
                   <Avatar className="h-12 w-12">
                     <AvatarImage
                       className="rounded-full"
-                      src="https://github.com/shadcn.png"
+                      src={user?.profile?.profilePhoto}
                       alt="@shadcn"
                     />
                   </Avatar>

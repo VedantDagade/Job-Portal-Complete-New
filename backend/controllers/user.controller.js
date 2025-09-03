@@ -17,6 +17,7 @@ export const register = async (req, res) => {
         .status(400)
         .json({ message: "Something is missing", success: false });
     }
+
     // Check existing user
     let user = await User.findOne({ email });
     if (user) {
@@ -28,34 +29,71 @@ export const register = async (req, res) => {
         });
     }
 
+    // ✅ Upload profile photo if provided
+    let profilePhotoUrl = "";
     if (req.files?.profilePhoto) {
       const profileFile = req.files.profilePhoto[0];
-      // upload to cloudinary
+      const fileUri = getDataUri(profileFile); // convert file → base64
+      const uploadResponse = await cloudinary.uploader.upload(fileUri.content, {
+        folder: "profile_photos",
+      });
+      profilePhotoUrl = uploadResponse.secure_url;
     }
-
-    
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
-    await User.create({
+    const newUser = await User.create({
       fullname,
       email,
       phoneNumber,
       password: hashedPassword,
       role,
-      profilePhoto: req.files?.profilePhoto ? "uploaded-url-here" : "",
+      profile: {
+        profilePhoto: profilePhotoUrl,
+        bio: "",
+        skills: [],
+        resume: "",
+        resumeOriginalName: "",
+      },
     });
 
-    return res
-      .status(201)
-      .json({ message: "Account created successfully", success: true });
+    // ✅ Safe user object (no password)
+    const safeUser = {
+      _id: newUser._id,
+      fullname: newUser.fullname,
+      email: newUser.email,
+      phoneNumber: newUser.phoneNumber,
+      role: newUser.role,
+      profile: newUser.profile,
+    };
+
+    return res.status(201).json({
+      message: "Account created successfully",
+      success: true,
+      user: safeUser, // ✅ return user for Redux
+    });
   } catch (error) {
     console.error("Register Error:", error);
     return res.status(500).json({ message: "Server error", success: false });
   }
 };
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.id).select("-password");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 
 // --------- LOGIN CONTROLLER -----------------
 export const login = async (req, res) => {

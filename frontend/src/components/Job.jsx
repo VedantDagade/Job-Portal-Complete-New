@@ -1,14 +1,16 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Bookmark } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+
 import { Badge } from "./ui/badge";
 import { useNavigate } from "react-router-dom";
+import useGetAllJobs from "@/hooks/useGetAllJobs";
 
-
-const Job = () => {
+const Job = ({ job }) => {
   const navigate = useNavigate();
-  const jobId = "kjbouohouhbojin";
+
+  useGetAllJobs();
 
   return (
     <div className="p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer">
@@ -30,29 +32,35 @@ const Job = () => {
           </Avatar>
         </Button>
         <div>
-          <h1 className="font-medium text-lg">Company Name</h1>
+          <h1 className="font-medium text-lg">{job?.company?.name}</h1>
           <p className="text-sm text-gray-600">India</p>
         </div>
       </div>
 
       <div>
-        <h1 className="font-bold text-lg my-2">Title</h1>
-        <p className="text-sm text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat in
-          consequuntur mollitia quod obcaecati? Eius dolorum laborum veritatis
-          beatae saepe.
-        </p>
+        <h1 className="font-bold text-lg my-2">{job?.title}</h1>
+        <p className="text-sm text-gray-600">{job?.description}</p>
       </div>
 
       <div className="flex gap-2 flex-wrap mt-4">
         <Badge className="bg-blue-50 text-blue-700 font-bold">
-          12 Positions
+          {job?.position} Positions
         </Badge>
-        <Badge className="bg-red-50 text-red-700 font-bold">Part Time</Badge>
-        <Badge className="bg-purple-50 text-purple-700 font-bold">45 LPA</Badge>
+        <Badge className="bg-red-50 text-red-700 font-bold">
+          {job?.jobType}
+        </Badge>
+        <Badge className="bg-purple-50 text-purple-700 font-bold">
+          {job?.salary} LPA
+        </Badge>
       </div>
       <div className="flex items-center gap-4 mt-4">
-        <Button onClick={() => navigate(`/description/${jobId}`)} variant="outline" className="cursor-pointer" >Details</Button>
+        <Button
+          onClick={() => navigate(`/description/${job?._id}`)}
+          variant="outline"
+          className="cursor-pointer"
+        >
+          Details
+        </Button>
         <Button className="bg-[#7209b7] cursor-pointer">Save For Later</Button>
       </div>
     </div>

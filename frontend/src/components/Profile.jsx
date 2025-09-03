@@ -59,11 +59,15 @@ const Profile = () => {
 
         <div className="my-5">
           <h1 className="font-bold text-lg my-2">Skills</h1>
-          <div className="flex items-center gap-1">
-            {user?.Profile?.skills.length != 0 ? (
-              user?.profile?.skills.map((item, index) => (
-                <Badge key={index}>{item}</Badge>
-              ))
+          <div className="flex flex-wrap gap-2">
+            {user?.profile?.skills && user.profile.skills.length > 0 ? (
+              user.profile.skills
+                .filter((skill) => skill.trim() !== "") // remove empty strings
+                .map((item, index) => (
+                  <Badge key={index} className="px-2 py-0.5 rounded-full">
+                    {item}
+                  </Badge>
+                ))
             ) : (
               <span>N/A</span>
             )}

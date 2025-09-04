@@ -1,4 +1,5 @@
 import { Job } from "../models/job.model.js";
+import { User } from "../models/user.model.js";
 
 //* For students -: Host by Admin
 export const postJob = async (req, res) => {
@@ -109,10 +110,15 @@ export const getAllJobs = async (req, res) => {
 };
 
 // find job by id
+// find job by id
 export const getJobById = async (req, res) => {
   try {
-    const jobId = req.params.id; // path param
-    const job = await Job.findById(jobId);
+    const jobId = req.params.id; 
+    const job = await Job.findById(jobId)
+      .populate({
+        path: "application",
+        populate: { path: "applicant", select: "email name _id" }, // ✅ populate applicant
+      });
 
     if (!job) {
       return res.status(404).json({
@@ -127,8 +133,10 @@ export const getJobById = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Internal Server Error", success: false });
   }
 };
+
 
 // * Get all jobs created by current admin
 export const getAdminJobs = async (req, res) => {
@@ -148,5 +156,57 @@ export const getAdminJobs = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+
+
+
+//* Delete Job By Id -: Only recruiter can delete this 
+export const deleteJobById = async (req, res) => {
+  try {
+    const jobId = req.params.id; // job id from route
+    const userId = req.id; // logged-in user id from JWT
+
+    // Find user to check role
+    const user = await User.findById(userId);
+    if (!user || user.role !== "recruiter") {
+      return res.status(403).json({
+        message: "Only recruiters can delete jobs.",
+        success: false,
+      });
+    }
+
+    // Find job
+    const job = await Job.findById(jobId);
+    if (!job) {
+      return res.status(404).json({
+        message: "Job not found.",
+        success: false,
+      });
+    }
+
+    // Ensure the recruiter is the creator of this job
+    if (job.created_by.toString() !== userId.toString()) {
+      return res.status(403).json({
+        message: "You are not authorized to delete this job.",
+        success: false,
+      });
+    }
+
+    // Delete job
+    await Job.findByIdAndDelete(jobId);
+
+    return res.status(200).json({
+      message: "Job deleted successfully.",
+      success: true,
+    });
+  } catch (error) {
+    console.error("Job deletion failed:", error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false,
+      error: error.message,
+    });
   }
 };

@@ -3,21 +3,66 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useParams } from "react-router-dom";
 
-import { JOB_API_END_POINT } from "@/utils/constant";
+import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { setSingleJob } from "@/redux/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./shared/Navbar";
 import Footer from "./Footer";
+import { toast } from "sonner";
 
 const JobDescription = () => {
   const user = useSelector((store) => store.auth.user); // get logged-in user
-  const isApplied = false;
+
   const dispatch = useDispatch();
   const { singleJob } = useSelector((store) => store.job);
 
   const params = useParams();
   const jobId = params.id;
+
+  const [isApplied, setIsApplied] = React.useState(false);
+
+  useEffect(() => {
+    if (singleJob && user) {
+      // ✅ Check if logged-in user exists in application list
+      const alreadyApplied = singleJob?.application?.some(
+        (app) => app?.applicant?._id === user._id
+      );
+      setIsApplied(alreadyApplied);
+    }
+  }, [singleJob, user]);
+
+  const applyHandler = async () => {
+    try {
+      const res = await axios.post(
+        `${APPLICATION_API_END_POINT}/apply/${jobId}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        setIsApplied(true);
+        toast.success("✅ Applied successfully!");
+
+        // ✅ Refresh job details so applicants count updates
+        const refreshedJob = await axios.get(
+          `${JOB_API_END_POINT}/get/${jobId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (refreshedJob.data.success) {
+          dispatch(setSingleJob(refreshedJob.data.job));
+        }
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("⚠️ Failed to apply.");
+      }
+    }
+  };
 
   useEffect(() => {
     if (!jobId) return; // prevent fetch if jobId is undefined
@@ -77,6 +122,7 @@ const JobDescription = () => {
             </div>
           </div>
           <Button
+            onClick={applyHandler}
             disabled={isApplied}
             className={`rounded-lg ${
               isApplied
@@ -142,7 +188,7 @@ const JobDescription = () => {
           </h1>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

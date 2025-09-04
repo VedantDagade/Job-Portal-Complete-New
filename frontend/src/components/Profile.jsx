@@ -9,6 +9,7 @@ import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
+import Footer from "./Footer";
 
 const Profile = () => {
   const { user } = useSelector((store) => store.auth);
@@ -17,6 +18,24 @@ const Profile = () => {
   const isResume = Boolean(user?.profile?.resume);
 
   const [open, setOpen] = useState(false);
+
+  if (!user) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        {/* Navbar */}
+        <Navbar />
+
+        {/* Main content */}
+        <div className="flex-1 max-w-7xl mx-auto my-10 text-center text-red-600 font-bold">
+          Please log in to view Profile.
+        </div>
+
+        {/* Footer */}
+        <Footer/>
+      </div>
+    );
+  }
+
 
   return (
     <div>
@@ -27,7 +46,9 @@ const Profile = () => {
             <Avatar className="w-24 h-24 rounded-full">
               <AvatarImage
                 className="mt-auto"
-                src={user?.profile?.profilePhoto}
+                src={
+                  user?.profile?.profilePhoto || "https://github.com/shadcn.png"
+                }
                 alt="Profile Photo"
               />
             </Avatar>

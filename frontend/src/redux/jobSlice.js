@@ -3,18 +3,22 @@ import { createSlice } from "@reduxjs/toolkit";
 const jobSlice = createSlice({
   name: "job",
   initialState: {
-    allJobs:[],
+    allJobs: [], // array of all jobs
+    singleJob: null, // single job state
   },
   reducers: {
-    //actions
-    setAllJobs: (state,action) => {
+    // Update all jobs
+    setAllJobs: (state, action) => {
       state.allJobs = action.payload;
-      console.log("Redux Updated Jobs:", action.payload); // ✅ Add this
-    }
-  }
-  
-})
+    },
+    // Update single job
+    setSingleJob: (state, action) => {
+      state.singleJob = action.payload;
+    },
+  },
+});
 
-export const {setAllJobs} = jobSlice.actions;
+// Export both actions
+export const { setAllJobs, setSingleJob } = jobSlice.actions;
+
 export default jobSlice.reducer;
-

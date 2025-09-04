@@ -11,6 +11,8 @@ router.post("/post", isAuthenticated, postJob);
 router.get("/get", isAuthenticated, getAllJobs);
 router.get("/getadminjobs", isAuthenticated, getAdminJobs);
 router.get("/get/:id", isAuthenticated, getJobById);
+
+//For Delete Job
 router.delete("/delete/:id", isAuthenticated, deleteJobById);
 
 

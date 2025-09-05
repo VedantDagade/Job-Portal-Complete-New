@@ -1,6 +1,6 @@
 import { Table } from 'lucide-react';
 import React from 'react'
-import { TableCaption, TableHeader } from '../ui/table';
+import { TableCaption, TableHead, TableHeader, TableRow } from '../ui/table';
 
 const CompaniesTable = () => {
   return (
@@ -8,7 +8,12 @@ const CompaniesTable = () => {
       <Table>
         <TableCaption>A List of your recent Registerd Companies</TableCaption>
         <TableHeader>
-          
+          <TableRow>
+            <TableHead>Logo</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead>Action</TableHead>
+          </TableRow>
         </TableHeader>
       </Table>
     </div>

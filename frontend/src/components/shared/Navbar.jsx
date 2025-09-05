@@ -44,9 +44,21 @@ const Navbar = () => {
         {/* Logo */}
         <nav>
           <h1 className="text-2xl font-bold">
-            <Link to="/" className="hover:opacity-80 transition">
-              Job <span className="text-[#F83002]">Portal</span>
-            </Link>
+            {user && user.role == "recruiter" ? (
+              <Link
+                to="/admin/companies"
+                className="hover:opacity-80 transition"
+              >
+                Job <span className="text-[#F83002]">Portal</span>
+              </Link>
+            ) : (
+              <Link
+                to="/"
+                className="hover:opacity-80 transition"
+              >
+                Job <span className="text-[#F83002]">Portal</span>
+              </Link>
+            )}
           </h1>
         </nav>
 

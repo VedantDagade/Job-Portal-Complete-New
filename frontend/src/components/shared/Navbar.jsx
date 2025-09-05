@@ -54,43 +54,69 @@ const Navbar = () => {
         <div className="flex items-center gap-4 md:gap-12">
           {/* Navigation Links */}
           <ul className="flex flex-wrap md:flex-nowrap items-center gap-3 md:gap-5 font-medium text-gray-700">
-            <li>
-              <Link to="/" className="hover:text-[#F83002] transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-[#F83002] transition-colors"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/jobs"
-                className="hover:text-[#F83002] transition-colors"
-              >
-                Jobs
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/browse"
-                className="hover:text-[#F83002] transition-colors"
-              >
-                Browse
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="hover:text-[#F83002] transition-colors"
-              >
-                Contact Us
-              </Link>
-            </li>
+            {user && user.role == "recruiter" ? (
+              <>
+                <li>
+                  <Link
+                    to="/admin/companies"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    Companies
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/admin/jobs"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    Jobs
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    to="/"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/about"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/jobs"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    Jobs
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/browse"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    Browse
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/contact"
+                    className="hover:text-[#F83002] transition-colors"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
 
           {!user ? (

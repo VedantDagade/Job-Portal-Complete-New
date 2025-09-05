@@ -77,52 +77,55 @@ const Profile = () => {
           </div>
         </div>
 
-        <hr />
+        {user && user.role == "student" && (
+          <>
+            <hr />
+            <div className="my-5">
+              <h1 className="font-bold text-lg my-2">Skills</h1>
+              <div className="flex flex-wrap gap-2">
+                {user?.profile?.skills && user.profile.skills.length > 0 ? (
+                  user.profile.skills
+                    .filter((skill) => skill.trim() !== "") // remove empty strings
+                    .map((item, index) => (
+                      <Badge key={index} className="px-2 py-0.5 rounded-full">
+                        {item}
+                      </Badge>
+                    ))
+                ) : (
+                  <span>N/A</span>
+                )}
+              </div>
+            </div>
 
-        <div className="my-5">
-          <h1 className="font-bold text-lg my-2">Skills</h1>
-          <div className="flex flex-wrap gap-2">
-            {user?.profile?.skills && user.profile.skills.length > 0 ? (
-              user.profile.skills
-                .filter((skill) => skill.trim() !== "") // remove empty strings
-                .map((item, index) => (
-                  <Badge key={index} className="px-2 py-0.5 rounded-full">
-                    {item}
-                  </Badge>
-                ))
-            ) : (
-              <span>N/A</span>
-            )}
-          </div>
-        </div>
+            <hr className="my-2" />
 
-        <hr className="my-2" />
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label className="font-bold text-lg my-2">
+                {user?.profile?.isResume}
+              </Label>
+              {isResume ? (
+                <a
+                  target="blank"
+                  className="text-blue-500 w-full hover:underline cursor-pointer"
+                  href={`https://docs.google.com/viewer?url=${encodeURIComponent(
+                    user.profile.resume
+                  )}&embedded=true`}
+                >
+                  {user?.profile?.resumeOriginalName}
+                </a>
+              ) : (
+                <span>N/A</span>
+              )}
+            </div>
+            <div className="max-w-4xl mx-auto bg-white rounded-2xl my-5 p-5">
+              <h1 className="font-bold text-lg my-2">Applied Jobs</h1>
+              <AppliedJobTable />
+            </div>
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label className="font-bold text-lg my-2">
-            {user?.profile?.isResume}
-          </Label>
-          {isResume ? (
-            <a
-              target="blank"
-              className="text-blue-500 w-full hover:underline cursor-pointer"
-              href={`https://docs.google.com/viewer?url=${encodeURIComponent(
-                user.profile.resume
-              )}&embedded=true`}
-            >
-              {user?.profile?.resumeOriginalName}
-            </a>
-          ) : (
-            <span>N/A</span>
-          )}
-        </div>
+            <UpdateProfileDialog open={open} setOpen={setOpen} />
+          </>
+        )}
       </div>
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl my-5 p-5">
-        <h1 className="font-bold text-lg my-2">Applied Jobs</h1>
-        <AppliedJobTable />
-      </div>
-
-      <UpdateProfileDialog open={open} setOpen={setOpen} />
     </div>
   );
 };

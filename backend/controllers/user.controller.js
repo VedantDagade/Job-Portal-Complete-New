@@ -125,13 +125,11 @@ export const login = async (req, res) => {
     }
 
     // Role check
-    if (role !== user.role) {
-      return res
-        .status(400)
-        .json({
-          message: "Account doesn't exist with current role.",
-          success: false,
-        });
+    if (role.toLowerCase() !== user.role.toLowerCase()) {
+      return res.status(400).json({
+        message: "Account doesn't exist with current role.",
+        success: false,
+      });
     }
 
     // JWT payload

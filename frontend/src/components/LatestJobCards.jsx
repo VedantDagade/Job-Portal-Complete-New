@@ -1,9 +1,7 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import useGetAllJobs from "@/hooks/useGetAllJobs";
 
 const LatestJobCards = ({ job }) => {
-  useGetAllJobs();
   return (
     <div className="p-5 bg-white border border-gray-100 rounded-lg shadow-sm space-y-3 cursor-pointer">
       <div>

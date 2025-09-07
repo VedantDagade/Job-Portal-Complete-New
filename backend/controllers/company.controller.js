@@ -1,4 +1,6 @@
 import { Company } from "../models/company.models.js";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 // ===================== Register a New Company =====================
 export const registerCompany = async (req, res) => {
@@ -102,10 +104,13 @@ export const updateCompany = async (req, res) => {
     const file = req.file; // If image/logo is uploaded (via multer)
 
     // 🚀 Future Step: Upload file to Cloudinary (logo, banner, etc.)
-    // Example: const logoUrl = await uploadToCloudinary(file);
+
+    const fileUri = getDataUri(file);
+    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    const logo = cloudResponse.secure_url;
 
     // Prepare update object
-    const updateData = { name, description, website, location };
+    const updateData = { name, description, website, location, logo };
 
     // Update the company in DB and return new data
     const company = await Company.findByIdAndUpdate(req.params.id, updateData, {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -7,75 +7,82 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table"; // Importing Table components (reusable UI components)
-import { Avatar, AvatarImage } from "../ui/avatar"; // Avatar component for displaying company logo
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"; // Popover for dropdown actions
-import { Edit2, MoreHorizontal } from "lucide-react"; // Icons for actions
-import { useSelector } from "react-redux"; // Hook to access Redux store
+} from "../ui/table";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Edit2, MoreHorizontal } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const CompaniesTable = () => {
-  // Step 1: Access the Redux store for 'company' slice
-  // Using optional chaining and default to empty array to avoid runtime errors
-  const companies = useSelector((store) => store.company?.companies ?? []);
+  // Safe selectors: get companies array and current search string from Redux store
+  const companies = useSelector((state) => state.company?.companies ?? []);
+  const searchCompanyByText = useSelector(
+    (state) => state.company?.searchCompanyByText ?? ""
+  );
+
+  // Local state for the filtered list shown in UI
+  const [filteredCompany, setFilterCompany] = useState(companies);
+
+  useEffect(() => {
+    // Normalize query and filter defensively (handles null/undefined names)
+    const query = (searchCompanyByText || "").toLowerCase().trim();
+
+    const filtered = !query
+      ? companies
+      : companies.filter((company) =>
+          (company?.name ?? "").toLowerCase().includes(query)
+        );
+
+    setFilterCompany(filtered);
+  }, [companies, searchCompanyByText]);
 
   return (
     <div>
-      {/* Step 2: Render the table */}
       <Table>
-        {/* Step 2a: Table Caption */}
-        <TableCaption>A List of your recent Registered Companies</TableCaption>
+        <TableCaption>List of recently registered companies</TableCaption>
 
-        {/* Step 2b: Table Header */}
         <TableHeader>
           <TableRow>
-            <TableHead>Logo</TableHead> {/* Company logo */}
-            <TableHead>Name</TableHead> {/* Company name */}
-            <TableHead>Date</TableHead> {/* Registration date */}
-            <TableHead className="text-right">Action</TableHead>{" "}
-            {/* Actions (edit/delete) */}
+            <TableHead>Logo</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Date</TableHead>
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
 
-        {/* Step 3: Table Body */}
         <TableBody>
-          {/* Step 3a: Conditional rendering if no companies */}
-          {companies.length === 0 ? (
+          {filteredCompany.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4} className="text-center text-gray-500">
-                Companies Not Found... or You Haven't Registered Any Company
-                Yet.
+                Companies not found or you haven't registered any company yet.
               </TableCell>
             </TableRow>
           ) : (
-            /* Step 3b: Map over companies array to render each row */
-            companies.map((company) => (
+            filteredCompany.map((company) => (
               <TableRow key={company._id}>
-                {/* Step 3b-i: Company Logo */}
                 <TableCell>
                   <Avatar className="w-10 h-10 rounded-full">
                     <AvatarImage
-                      // Replace with actual company logo URL if available
-                      src={company.logo}
-                      alt="Company Logo"
+                      src={company?.logo || undefined}
+                      alt={company?.name || "Company Logo"}
                     />
                   </Avatar>
                 </TableCell>
 
-                {/* Step 3b-ii: Company Name */}
-                <TableCell>{company.name}</TableCell>
+                <TableCell>{company?.name ?? "-"}</TableCell>
 
-                {/* Step 3b-iii: Registration Date */}
-                <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+                <TableCell>
+                  {company?.createdAt
+                    ? String(company.createdAt).split("T")[0]
+                    : "-"}
+                </TableCell>
 
-                {/* Step 3b-iv: Actions (Edit/Delete) using Popover */}
                 <TableCell className="text-right cursor-pointer">
                   <Popover>
-                    {/* Trigger icon for popover */}
                     <PopoverTrigger>
                       <MoreHorizontal />
                     </PopoverTrigger>
 
-                    {/* Popover content (edit button) */}
                     <PopoverContent className="w-32">
                       <div className="flex items-center gap-2 w-fit cursor-pointer">
                         <Edit2 className="w-4" />
@@ -94,3 +101,13 @@ const CompaniesTable = () => {
 };
 
 export default CompaniesTable;
+
+/*
+Filter logic (summary):
+- We read the Redux values safely: companies (array) and searchCompanyByText (string).
+- In useEffect (runs when companies or search text change):
+  1. Normalize the search string: lowercased and trimmed.
+  2. If the normalized query is empty, show the full companies array.
+  3. Otherwise filter companies where company.name (defensively handled) includes the query.
+- The filtered list is stored in local state `filteredCompany` and rendered in the table.
+*/

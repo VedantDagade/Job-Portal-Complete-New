@@ -31,7 +31,7 @@ const AdminJobs = () => {
             onChange={(e) => setInput(e.target.value)}
           />
           <Button
-            onClick={() => navigate("/admin/companies/create")}
+            onClick={() => navigate("/admin/jobs/create")}
             className="w-full sm:w-auto"
           >
             New Jobs

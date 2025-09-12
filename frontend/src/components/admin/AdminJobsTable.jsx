@@ -46,8 +46,8 @@ const AdminJobsTable = () => {
 
         <TableHeader>
           <TableRow>
-            <TableHead>Logo</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead>Company Name</TableHead>
+            <TableHead>Role</TableHead>
             <TableHead>Date</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
@@ -63,15 +63,6 @@ const AdminJobsTable = () => {
           ) : (
             filteredCompany.map((company) => (
               <TableRow key={company._id}>
-                <TableCell>
-                  <Avatar className="w-10 h-10 rounded-full">
-                    <AvatarImage
-                      src={company?.logo || undefined}
-                      alt={company?.name || "Company Logo"}
-                    />
-                  </Avatar>
-                </TableCell>
-
                 <TableCell>{company?.name ?? "-"}</TableCell>
 
                 <TableCell>

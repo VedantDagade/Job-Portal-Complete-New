@@ -4,8 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const jobSlice = createSlice({
   name: "job",
   initialState: {
-    allJobs: [], // array of all jobs
     allAdminJobs: [],
+    allJobs: [], // array of all jobs
     singleJob: null, // single job state
   },
   reducers: {
@@ -17,9 +17,9 @@ const jobSlice = createSlice({
     setSingleJob: (state, action) => {
       state.singleJob = action.payload;
     },
-    setAllAdminJobs: (state , action) => {
+    setAllAdminJobs: (state, action) => {
       state.allAdminJobs = action.payload;
-    }
+    },
   },
 });
 

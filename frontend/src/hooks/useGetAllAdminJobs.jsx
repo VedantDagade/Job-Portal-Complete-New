@@ -11,9 +11,12 @@ const useGetAllAdminJobs = () => {
     const fetchAllAdminJobs = async () => {
       try {
         const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`, {
-          withCredentials: true, // ✅ include cookie
+          withCredentials: true, // ✅ send cookies automatically
         });
-        if (res.data.success) dispatch(setAllAdminJobs(res.data.jobs || []));
+
+        if (res.data.success) {
+          dispatch(setAllAdminJobs(res.data.jobs || []));
+        }
       } catch (error) {
         console.error("Error fetching admin jobs:", error);
       }

@@ -14,10 +14,20 @@ const LatestJobs = () => {
         <span className="text-[#6A38C2]">Latest & Top Job Opening </span> Job
         Openings
       </h1>
-      <div className="grid grid-cols-3 gap-4 my-5">
-        {allJobs.length >= 0 ?allJobs.slice(0, 6).map((job) => (
+      {/* <div className="grid grid-cols-3 gap-4 my-5">
+        {allJobs.length >= 0 ?allJobs.slice(0, 3).map((job) => (
           <LatestJobCards key={job._id} job={job} />
         )) : <span>Job Not Found</span>}
+      </div> */}
+      <div className="grid grid-cols-3 gap-4 my-5">
+        {allJobs.length > 0 ? (
+          [...allJobs]
+            .sort(() => 0.5 - Math.random()) // shuffle the array randomly
+            .slice(0, 3) // take first 3 jobs
+            .map((job) => <LatestJobCards key={job._id} job={job} />)
+        ) : (
+          <span>Job Not Found</span>
+        )}
       </div>
     </div>
   );

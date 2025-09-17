@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -12,30 +12,33 @@ import { useNavigate } from "react-router-dom";
 const CategoryCarousel = ({ jobs }) => {
   const navigate = useNavigate();
 
-  // Get unique job titles
-  const uniqueCategories = [...new Set(jobs.map((job) => job.title))];
+  // Memoize unique categories to avoid recalculating on every render
+  const uniqueCategories = useMemo(
+    () => [...new Set(jobs.map((job) => job.title))],
+    [jobs]
+  );
 
-  // Find first job ID of the clicked category
+  // Navigate to the first job of the selected category
   const handleClick = (category) => {
     const job = jobs.find((job) => job.title === category);
     if (job) navigate(`/jobs/${job._id}`);
   };
 
   return (
-    <div>
-      <Carousel className="w-full max-w-xl mx-auto my-20">
+    <div className="my-20">
+      <Carousel className="w-full max-w-xl mx-auto">
         <CarouselContent>
-          {uniqueCategories.map((cat, index) => (
+          {uniqueCategories.map((category) => (
             <CarouselItem
               className="sm:basis-1 md:basis-1/2 lg:basis-1/3"
-              key={index}
+              key={category} // Use category as key instead of index
             >
               <Button
                 variant="outline"
                 className="rounded-full"
-                onClick={() => handleClick(cat)}
+                onClick={() => handleClick(category)}
               >
-                {cat}
+                {category}
               </Button>
             </CarouselItem>
           ))}

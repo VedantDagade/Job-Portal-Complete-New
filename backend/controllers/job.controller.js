@@ -210,3 +210,27 @@ export const deleteJobById = async (req, res) => {
     });
   }
 };
+
+
+//update admin jobs-:
+export const updateJobById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, salary, location } = req.body;
+
+    const job = await Job.findByIdAndUpdate(
+      id,
+      { title, description, salary, location },
+      { new: true }
+    );
+
+    if (!job) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    res.status(200).json({ success: true, job });
+  } catch (error) {
+    console.error("Update job error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

@@ -19,7 +19,11 @@ const Job = ({ job }) => {
   return (
     <div className="p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">{daysAgoFunction(job?.createdAt) == 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
+        <p className="text-sm text-gray-500">
+          {daysAgoFunction(job?.createdAt) == 0
+            ? "Today"
+            : `${daysAgoFunction(job?.createdAt)} days ago`}
+        </p>
         <Button variant="outline" className="rounded-full" size="icon">
           <Bookmark />
         </Button>
@@ -28,11 +32,18 @@ const Job = ({ job }) => {
       <div className="flex items-center gap-2 my-2">
         <Button variant="outline" size="icon">
           <Avatar className="w-12 h-12 rounded-full">
-            <AvatarImage
-              className="mt-2"
-              src="https://imgs.search.brave.com/Y_hU5wT4IYRa1yUzMC0a8yvx4jxxLEb8rXWL_DYiqZ8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzg4LzkxLzkx/LzM2MF9GXzEyODg5/MTkxMDZfS3hMRG1U/ZmU3ZkZLRVBKMVQ3/WDFjRnVzRngzUUJF/ZTIuanBn"
-              alt="Company Logo"
-            />
+            {job?.company?.logo ? (
+              <AvatarImage
+                src={job.company.logo} // Admin uploaded logo URL
+                alt={job?.company?.name || "Company Logo"}
+              />
+            ) : (
+              <AvatarFallback>
+                {job?.company?.name
+                  ? job.company.name.charAt(0).toUpperCase()
+                  : "C"}
+              </AvatarFallback>
+            )}
           </Avatar>
         </Button>
         <div>

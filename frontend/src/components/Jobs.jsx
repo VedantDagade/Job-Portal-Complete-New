@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { motion as Motion } from "framer-motion";
+
 import Navbar from "./shared/Navbar";
 import FilterCard from "./FilterCard";
 import Job from "./Job";
@@ -10,10 +12,9 @@ const Jobs = () => {
   const user = useSelector((store) => store.auth.user); // logged-in user
   const { allJobs = [], searchQuery = "" } = useSelector((store) => store.job);
 
-  // initialize filtered jobs state
   const [filterdJobs, setFilterdJobs] = useState(allJobs);
 
-  // ✅ Fetch jobs when component mounts / when searchQuery changes
+  // fetch jobs
   useGetAllJobs();
 
   useEffect(() => {
@@ -33,10 +34,8 @@ const Jobs = () => {
           salary.includes(q)
         );
       });
-
       setFilterdJobs(filtered);
     } else {
-      // no search query -> show all
       setFilterdJobs(allJobs);
     }
   }, [allJobs, searchQuery]);
@@ -72,7 +71,15 @@ const Jobs = () => {
             <div className="flex-1 h-[88vh] overflow-y-auto pb-5">
               <div className="grid grid-cols-3 gap-4">
                 {filterdJobs.map((job) => (
-                  <Job key={job?._id} job={job} />
+                  <Motion.div
+                    key={job?._id}
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Job job={job} />
+                  </Motion.div>
                 ))}
               </div>
             </div>

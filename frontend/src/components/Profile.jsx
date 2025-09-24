@@ -10,8 +10,10 @@ import { Label } from "./ui/label";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import Footer from "./Footer";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 
 const Profile = () => {
+  useGetAppliedJobs();
   const { user } = useSelector((store) => store.auth);
 
   //const isResume = true;

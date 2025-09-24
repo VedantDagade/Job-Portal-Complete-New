@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const jobSlice = createSlice({
   name: "job",
   initialState: {
     allAdminJobs: [],
+    allAppliedJobs: [],
     allJobs: [], // array of all jobs
     singleJob: null, // single job state
   },
@@ -20,10 +20,14 @@ const jobSlice = createSlice({
     setAllAdminJobs: (state, action) => {
       state.allAdminJobs = action.payload;
     },
+    setAllAppliedJobs: (state, action) => {
+      state.allAppliedJobs = action.payload;
+    },
   },
 });
 
 // Export both actions
-export const { setAllJobs, setAllAdminJobs ,setSingleJob } = jobSlice.actions;
+export const { setAllJobs, setAllAdminJobs, setSingleJob, setAllAppliedJobs } =
+  jobSlice.actions;
 
 export default jobSlice.reducer;

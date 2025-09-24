@@ -11,12 +11,55 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { MoreHorizontal } from "lucide-react";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import axios from "axios";
+import { APPLICATION_API_END_POINT } from "@/utils/constant";
 
 const shortListingStatus = ["Accepted", "Rejected"];
 
 const ApplicantsTable = () => {
   //get all applicants here from applicants.jsx
   const { applicants } = useSelector((store) => store?.application);
+
+  //accept reject handler
+  const statusHandler = async (status, id) => {
+    if (!id) {
+      toast.error("Invalid application id");
+      return;
+    }
+
+    try {
+      const base = APPLICATION_API_END_POINT.replace(/\/$/, "");
+      // <-- adjust here if your backend expects a different path:
+      const url = `${base}/status/${id}/update`;
+      console.debug("Updating application status — URL:", url, "payload:", {
+        status,
+      });
+
+      const res = await axios.put(
+        url,
+        { status },
+        { withCredentials: true } // include cookies if backend needs them
+      );
+
+      if (res?.data?.success) {
+        toast.success(res.data.message ?? "Status updated");
+        // optionally refresh list or update Redux here
+      } else {
+        toast.error(res?.data?.message ?? "Failed to update status");
+      }
+    } catch (err) {
+      // safe error handling
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        err?.message ||
+        "Server error";
+      console.error("statusHandler error:", err);
+      toast.error(msg);
+    }
+  };
+
   return (
     <div>
       <Table>
@@ -64,6 +107,7 @@ const ApplicantsTable = () => {
                       {shortListingStatus.map((status, index) => {
                         return (
                           <div
+                            onClick={() => statusHandler(status, item?._id)}
                             key={index}
                             className="flex w-fit items-center my-2"
                           >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
@@ -19,7 +19,7 @@ const Login = () => {
     role: "",
   });
 
-  const { loading } = useSelector((state) => state.auth); 
+  const { loading, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const Login = () => {
         withCredentials: true,
       });
       if (res.data.success) {
-        dispatch(setUser(res.data.user))
+        dispatch(setUser(res.data.user));
         toast.success(res.data.message);
         navigate("/");
       }
@@ -47,6 +47,12 @@ const Login = () => {
       dispatch(setLoading(false));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user,navigate]);
 
   return (
     <div>
@@ -62,11 +68,12 @@ const Login = () => {
           <div className="my-3">
             <Label className="font-medium">Email</Label>
             <Input
+              className="my-2"
               type="email"
               value={input.email}
               name="email"
               onChange={changeEventHandler}
-              placeholder="vedantdagade21@gmail.com"
+              placeholder="username@gmail.com"
               autoComplete="email"
             />
           </div>
@@ -75,6 +82,7 @@ const Login = () => {
           <div className="my-3">
             <Label className="font-medium">Password</Label>
             <Input
+              className="my-2"
               type="password"
               value={input.password}
               name="password"
@@ -85,7 +93,7 @@ const Login = () => {
           </div>
 
           {/* Role */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 gap-4 my-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 gap-4 my-4">
             <RadioGroup className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <Input

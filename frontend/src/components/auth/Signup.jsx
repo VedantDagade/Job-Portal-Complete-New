@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
@@ -23,7 +23,7 @@ const Signup = () => {
     file: "",
   });
 
-  const { loading } = useSelector((store) => store.auth);
+  const { loading, user } = useSelector((store) => store.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,7 +68,11 @@ const Signup = () => {
       dispatch(setLoading(false));
     }
   };
-
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
   return (
     <div>
       <Navbar />
@@ -83,11 +87,12 @@ const Signup = () => {
           <div className="my-3">
             <Label className="font-medium">Full Name</Label>
             <Input
+              className="my-2"
               type="text"
               value={input.fullname}
               name="fullname"
               onChange={changeEventHandler}
-              placeholder="Vedant"
+              placeholder="Name"
               autoComplete="name"
             />
           </div>
@@ -96,11 +101,12 @@ const Signup = () => {
           <div className="my-3">
             <Label className="font-medium">Email</Label>
             <Input
+              className="my-2"
               type="email"
               value={input.email}
               name="email"
               onChange={changeEventHandler}
-              placeholder="vedantdagade21@gmail.com"
+              placeholder="username@gmail.com"
               autoComplete="email"
             />
           </div>
@@ -109,11 +115,12 @@ const Signup = () => {
           <div className="my-3">
             <Label className="font-medium">Phone Number</Label>
             <Input
+              className="my-2"
               type="tel"
               value={input.phoneNumber}
               name="phoneNumber"
               onChange={changeEventHandler}
-              placeholder="9970419171"
+              placeholder="Contact number"
               autoComplete="tel"
             />
           </div>
@@ -122,6 +129,7 @@ const Signup = () => {
           <div className="my-3">
             <Label className="font-medium">Password</Label>
             <Input
+              className="my-2"
               type="password"
               value={input.password}
               name="password"

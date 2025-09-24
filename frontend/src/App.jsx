@@ -20,6 +20,7 @@ import AdminJobs from "./components/admin/AdminJobs";
 import PostJobs from "./components/admin/PostJobs";
 import Applicants from "./components/admin/Applicants";
 import AdmminPostJobs from "./components/admin/AdminPostJobs";
+import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 const appRouter = createBrowserRouter([
   {
@@ -61,31 +62,59 @@ const appRouter = createBrowserRouter([
   //Admin Logic And Routes
   {
     path: "/admin/companies",
-    element: <Companies />,
+    element: (
+      <ProtectedRoute>
+        <Companies />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin/jobs",
-    element: <AdminJobs />,
+    element: (
+      <ProtectedRoute>
+        <AdminJobs />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin/jobs/create",
-    element: <PostJobs />,
+    element: (
+      <ProtectedRoute>
+        <PostJobs />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin/companies/create",
-    element: <CompanyCreate />,
+    element: (
+      <ProtectedRoute>
+        <CompanyCreate />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin/companies/:id",
-    element: <CompanySetup />,
+    element: (
+      <ProtectedRoute>
+        <CompanySetup />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin/jobs/:id/applicants",
-    element: <Applicants />,
+    element: (
+      <ProtectedRoute>
+        <Applicants />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/admin/jobs/edit/:jobId",
-    element: <AdmminPostJobs/>
+    element: (
+      <ProtectedRoute>
+        <AdmminPostJobs />
+      </ProtectedRoute>
+    ),
   },
 ]);
 

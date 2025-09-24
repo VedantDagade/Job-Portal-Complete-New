@@ -105,11 +105,17 @@ const ApplicantsTable = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-32">
                       {shortListingStatus.map((status, index) => {
+                        const isAccepted = status === "Accepted";
                         return (
                           <div
                             onClick={() => statusHandler(status, item?._id)}
                             key={index}
-                            className="flex w-fit items-center my-2"
+                            className={`flex w-full justify-center items-center my-1 px-2 py-1 rounded-md font-medium cursor-pointer transition 
+           ${
+             isAccepted
+               ? "bg-green-500 text-white hover:bg-green-600"
+               : "bg-red-500 text-white hover:bg-red-600"
+           }`}
                           >
                             <span>{status}</span>
                           </div>

@@ -35,7 +35,6 @@ const AppliedJobTable = () => {
             </TableRow>
           ) : (
             allAppliedJobs.map((appliedJob) => {
-              // adapt field access to your actual payload shape:
               const date =
                 appliedJob?.createdAt ?? appliedJob?.appliedAt ?? null;
               const role =
@@ -46,7 +45,15 @@ const AppliedJobTable = () => {
                 appliedJob?.job?.company?.name ??
                 appliedJob?.company?.name ??
                 "Company not specified";
-              const status = appliedJob?.status ?? "Pending";
+              const status = (appliedJob?.status ?? "pending").toLowerCase();
+
+              // pick badge color based on status
+              const badgeClass =
+                status === "rejected"
+                  ? "bg-red-600 text-white"
+                  : status === "pending"
+                  ? "bg-gray-400 text-white"
+                  : "bg-green-600 text-white";
 
               return (
                 <TableRow key={appliedJob._id ?? appliedJob.id}>
@@ -56,7 +63,7 @@ const AppliedJobTable = () => {
                   <TableCell>{role}</TableCell>
                   <TableCell>{company}</TableCell>
                   <TableCell className="text-right">
-                    <Badge>{status}</Badge>
+                    <Badge className={badgeClass}>{status.toUpperCase()}</Badge>
                   </TableCell>
                 </TableRow>
               );

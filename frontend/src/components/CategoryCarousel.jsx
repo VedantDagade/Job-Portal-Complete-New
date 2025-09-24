@@ -8,9 +8,17 @@ import {
 } from "./ui/carousel";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setSearchQuery } from "@/redux/jobSlice";
 
 const CategoryCarousel = ({ jobs }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const searchJobHandler = (query) => {
+    dispatch(setSearchQuery(query));
+    navigate("/browse");
+  };
 
   // Memoize unique categories to avoid recalculating on every render
   const uniqueCategories = useMemo(
@@ -18,11 +26,7 @@ const CategoryCarousel = ({ jobs }) => {
     [jobs]
   );
 
-  // Navigate to the first job of the selected category
-  const handleClick = (category) => {
-    const job = jobs.find((job) => job.title === category);
-    if (job) navigate(`/jobs/${job._id}`);
-  };
+ 
 
   return (
     <div className="my-20">
@@ -36,7 +40,7 @@ const CategoryCarousel = ({ jobs }) => {
               <Button
                 variant="outline"
                 className="rounded-full"
-                onClick={() => handleClick(category)}
+                onClick={()=>searchJobHandler(category)}
               >
                 {category}
               </Button>

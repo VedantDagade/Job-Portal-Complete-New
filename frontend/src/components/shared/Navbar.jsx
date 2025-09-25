@@ -49,14 +49,14 @@ const Navbar = () => {
                 to="/admin/companies"
                 className="hover:opacity-80 transition"
               >
-                Job <span className="text-[#F83002]">Portal</span>
+                Job <span className="text-[#F83002]">Hunt</span>
               </Link>
             ) : (
               <Link
                 to="/"
                 className="hover:opacity-80 transition"
               >
-                Job <span className="text-[#F83002]">Portal</span>
+                Job <span className="text-[#F83002]">Hunt</span>
               </Link>
             )}
           </h1>

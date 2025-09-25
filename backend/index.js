@@ -93,9 +93,9 @@ app.use("/api/v1/application", applicationRoute);
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`🚀 Server Running at Port ${PORT}`);
+      console.log(`Server Running at Port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("❌ Failed to connect to MongoDB", err);
+    console.error("Failed to connect to MongoDB", err);
   });

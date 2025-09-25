@@ -54,7 +54,7 @@ app.use(cookieParser());
 // CORS CONFIGURATION
 // ---------------------------
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow only frontend (Vite React app)
+  origin: "https://job-portal-cgrc.onrender.com", // Allow only frontend (Vite React app)
   credentials: true, // Allow cookies & auth headers
 };
 app.use(cors(corsOptions));

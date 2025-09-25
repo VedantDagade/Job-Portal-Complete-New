@@ -12,6 +12,7 @@ import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
+import path from "path";
 
 
 // ---------------------------
@@ -23,6 +24,9 @@ dotenv.config({}); // Load .env file (e.g., PORT, DB_URI, JWT_SECRET, etc.)
 //* EXPRESS APP INITIALIZATION
 // ---------------------------
 const app = express();
+
+
+const _dirname = path.resolve();
 
 // ---------------------------
 // TEST ROUTE (Health Check)
@@ -85,6 +89,18 @@ app.use("/api/v1/job", jobRoute);
 
 //Application route.js
 app.use("/api/v1/application", applicationRoute);
+
+
+
+app.use(express.static(path.join(_dirname,"/frontend/dist")));
+
+// Catch-all route for frontend (React Router)
+// Express 5 requires a regex instead of "*"
+app.get("*", (_, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+});
+
+
 
 
 // ---------------------------
